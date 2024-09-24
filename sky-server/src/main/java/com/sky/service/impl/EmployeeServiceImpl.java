@@ -81,7 +81,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setCreateTime(LocalDateTime.now());
         //修改时间
         employee.setUpdateTime(LocalDateTime.now());
-        
+
         //记录修改人和记录人
         employee.setCreateUser(BaseContext.getCurrentId());
         employee.setUpdateUser(BaseContext.getCurrentId());
@@ -104,6 +104,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         long total = page.getTotal();
         List<Employee> records = page.getResult();
         return new PageResult(total,records);
+    }
+
+    /**
+     * 启用禁用员工id
+     * @param status
+     * @param id
+     */
+    public void statusOrStop(Integer status, Long id) {
+        //update employee set status = ? where id = ?
+      Employee employee =  Employee.builder()
+                                    .status(status)
+                                    .id(id)
+                                    .build();
+        employeeMapper.update(employee);
     }
 
 }

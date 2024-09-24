@@ -77,10 +77,11 @@ public class EmployeeController {
         employeeService.save(employeeDTO);
         return Result.success();
     }
+
     /**
-     *
-     *
-     *
+     *员工分页查询
+     * @param employeePageQueryDTO
+     * @return
      */
     @GetMapping("/page")
     @ApiOperation("员工分页查询")
@@ -90,9 +91,16 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    @PostMapping("/status/{status}")//当路径中的字段名和变量名不一致的时候需要在注解中额外编写
+    @ApiOperation("启用禁用员工账号")
+    public Result startOrStop (@PathVariable("status") Integer status , Long id){
+        log.info("启用禁用员工账号 {},{}",status,id);
+        employeeService.statusOrStop(status,id);
+        return Result.success();
+    }
+
     /**
-     * 退出
-     *
+     * 员工退出接口
      * @return
      */
     @PostMapping("/logout")
