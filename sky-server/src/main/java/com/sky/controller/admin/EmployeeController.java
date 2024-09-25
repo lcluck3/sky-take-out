@@ -91,11 +91,43 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    /**
+     * 启用禁用员工账号
+     * @param status
+     * @param id
+     * @return
+     */
     @PostMapping("/status/{status}")//当路径中的字段名和变量名不一致的时候需要在注解中额外编写
     @ApiOperation("启用禁用员工账号")
     public Result startOrStop (@PathVariable("status") Integer status , Long id){
         log.info("启用禁用员工账号 {},{}",status,id);
         employeeService.statusOrStop(status,id);
+        return Result.success();
+    }
+
+    /**
+     * 根据id进行查询
+     * @param id
+     * @return Employee
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id进行查询员工信息")
+    public Result<Employee> selectById(@PathVariable("id") Long id){
+        log.info("员工id{}",id);
+        Employee employee =  employeeService.selectById(id);
+        return Result.success(employee);
+    }
+
+    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("编辑员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        log.info("编辑员工信息",employeeDTO);
+        employeeService.updata(employeeDTO);
         return Result.success();
     }
 

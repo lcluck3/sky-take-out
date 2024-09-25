@@ -68,6 +68,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    /**
+     * 新增员工接口
+     * @param employeeDTO
+     */
     @Override
     public void save(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
@@ -91,7 +95,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     /**
-     *
+     *员工分页查询
      * @param employeePageQueryDTO
      * @return
      */
@@ -107,7 +111,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     * 启用禁用员工id
+     * 启用禁用员工
      * @param status
      * @param id
      */
@@ -117,6 +121,33 @@ public class EmployeeServiceImpl implements EmployeeService {
                                     .status(status)
                                     .id(id)
                                     .build();
+        employeeMapper.update(employee);
+    }
+
+    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
+    public Employee selectById(Long id) {
+       Employee employee = employeeMapper.selectByid(id);
+       employee.setPassword("*****");
+       return employee;
+    }
+
+    /**
+     *
+     * @param employeeDTO
+     */
+    public void updata(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        //将DTO对象复制给实体对象
+        BeanUtils.copyProperties(employeeDTO, employee);
+        //设置当期时间为更新时间
+        employee.setUpdateTime(LocalDateTime.now());
+        //通过ThreadLocal得到更新操作人的id
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
         employeeMapper.update(employee);
     }
 
