@@ -44,7 +44,10 @@ public class CategoryController {
         categoryService.add(categoryDTO);
         return Result.success();
     }
-
+    /**
+     *
+     * 上传测试
+     */
     /**
      * 更改分类状态
      * @param status
